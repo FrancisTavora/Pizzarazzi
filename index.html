@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pizzarazzi MNL | Neapolitan-Style Pizza in Marikina</title>
+  <meta name="description" content="Handcrafted 12-inch Neapolitan-style pizza made to order in Marikina City. Slow-fermented dough, fresh toppings. Order a day ahead for pickup or delivery.">
+  <meta name="theme-color" content="#0c0b0a">
+
+  <meta property="og:type" content="restaurant">
+  <meta property="og:title" content="Pizzarazzi MNL — Capture the Flavor">
+  <meta property="og:description" content="Handcrafted Neapolitan-style pizza, made to order in Marikina City.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&q=80&auto=format">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script src="js/theme.js"></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/app.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Pizzarazzi MNL",
+    "servesCuisine": "Pizza",
+    "priceRange": "₱₱",
+    "telephone": "+639178535101",
+    "email": "pizzarazzimnl@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "69 Scarlet Street, Concepcion Dos",
+      "addressLocality": "Marikina City",
+      "addressRegion": "Metro Manila",
+      "postalCode": "1811",
+      "addressCountry": "PH"
+    },
+    "sameAs": [
+      "https://facebook.com/pizzarazzimanila",
+      "https://instagram.com/pizzarazzimanila",
+      "https://tiktok.com/@pizzarazzimanila"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ Header ============ -->
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#/" aria-label="Pizzarazzi MNL home">
+        <span class="brand__mark">PIZZARAZZI</span><span class="brand__sub">MNL</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Main">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#/" data-route-link="home">Home</a></li>
+          <li><a class="nav__link" href="#/menu" data-route-link="menu">Menu</a></li>
+          <li><a class="nav__link" href="#/faq" data-route-link="faq">FAQ</a></li>
+          <li><a class="nav__link" href="#/contact" data-route-link="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
+          <i class="fa-solid fa-sun" aria-hidden="true"></i>
+        </button>
+        <button class="cart-btn" id="cart-open" type="button" aria-label="Open cart" aria-controls="cart-drawer" aria-expanded="false">
+          <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+          <span class="cart-btn__label">Cart</span>
+          <span class="cart-btn__count" data-cart-count>0</span>
+        </button>
+        <button class="icon-btn nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-controls="nav" aria-expanded="false">
+          <span class="nav-toggle__bars" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ Home ============ -->
+    <div class="page" data-route="home">
+      <section class="hero">
+        <div class="hero__media" aria-hidden="true">
+          <img data-parallax="0.18" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=2000&q=80&auto=format" alt="" fetchpriority="high">
+        </div>
+        <div class="container hero__inner">
+          <p class="eyebrow hero__eyebrow"><span class="dot"></span> Neapolitan-style &middot; Marikina City</p>
+          <h1 class="hero__title">
+            <span class="hero__line"><span>Capture</span></span>
+            <span class="hero__line"><span>the <em>flavor.</em></span></span>
+          </h1>
+          <div class="hero__bottom">
+            <p class="hero__lede">Delicious Neapolitan-style pizza that's light on your tummy &amp; budget. Takeaway &amp; delivery, made to order.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#/menu">Order now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+              <a class="btn btn--ghost" href="#how">How it works</a>
+            </div>
+          </div>
+        </div>
+        <div class="hero__notice container">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          We bake on commission &mdash; please order at least 1 day in advance.
+        </div>
+      </section>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>12" Neapolitan</span><span>24-hour dough</span><span>Made to order</span><span>Marikina City</span><span>Pickup &amp; delivery</span>
+          <span>12" Neapolitan</span><span>24-hour dough</span><span>Made to order</span><span>Marikina City</span><span>Pickup &amp; delivery</span>
+        </div>
+      </div>
+
+      <!-- USP: sticky aside + stacking cards -->
+      <section class="usp section" aria-labelledby="usp-title">
+        <div class="container usp__grid">
+          <div class="usp__aside">
+            <p class="eyebrow">Why Pizzarazzi</p>
+            <h2 class="display usp__title" id="usp-title">Slow dough.<br><em>Honest</em> pizza.</h2>
+            <p class="usp__intro">Small-batch pizza from a home kitchen in Marikina &mdash; no shortcuts, no frozen bases, nothing sitting under a heat lamp.</p>
+            <div class="usp__counter" aria-hidden="true">
+              <span class="usp__current" id="usp-current">01</span>
+              <span class="usp__total">/ 04</span>
+            </div>
+            <div class="usp__progress" aria-hidden="true"><span id="usp-progress"></span></div>
+          </div>
+
+          <ol class="usp__list">
+            <li class="usp-card" style="--i:0">
+              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1579751626657-72bc17010498?w=1200&q=75&auto=format" alt="Pizza resting on a wooden board in front of a wood-fired oven" loading="lazy"></div>
+              <div class="usp-card__body">
+                <span class="usp-card__num">01</span>
+                <h3 class="usp-card__title">24-hour dough</h3>
+                <p>Our starter ferments for 12 hours, then the dough rises for another 12+. The result: a light, airy, blistered crust that's easy on the stomach.</p>
+              </div>
+            </li>
+            <li class="usp-card" style="--i:1">
+              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?w=1200&q=75&auto=format" alt="Hand lifting a slice of pepperoni pizza" loading="lazy"></div>
+              <div class="usp-card__body">
+                <span class="usp-card__num">02</span>
+                <h3 class="usp-card__title">Made to order</h3>
+                <p>We work on commission, so every pizza is made for you. Order a day ahead and we prepare fresh dough and source ingredients just for your order.</p>
+              </div>
+            </li>
+            <li class="usp-card" style="--i:2">
+              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=1200&q=75&auto=format" alt="Sliced pizza with tomatoes, garlic and herbs" loading="lazy"></div>
+              <div class="usp-card__body">
+                <span class="usp-card__num">03</span>
+                <h3 class="usp-card__title">Fresh, generous toppings</h3>
+                <p>Sauce made from crushed tomatoes and herbs, real mozzarella and toppings piled on properly &mdash; 12 inches that comfortably feed two to three.</p>
+              </div>
+            </li>
+            <li class="usp-card" style="--i:3">
+              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=1200&q=75&auto=format" alt="Pizzas being shared at a dinner table" loading="lazy"></div>
+              <div class="usp-card__body">
+                <span class="usp-card__num">04</span>
+                <h3 class="usp-card__title">Pickup or delivery</h3>
+                <p>Collect from our kitchen in Concepcion Dos or have it delivered within Marikina and nearby areas. Pay by cash, GCash, Maya or bank transfer.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Signature lineup -->
+      <section class="lineup section" aria-labelledby="lineup-title">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow">The lineup</p>
+            <h2 class="display section-head__title" id="lineup-title">Signature <em>pies</em></h2>
+            <a class="link-arrow" href="#/menu">Full menu <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+          <div class="lineup__list" id="lineup-list"></div>
+        </div>
+      </section>
+
+      <!-- How to order -->
+      <section class="how section" id="how" aria-labelledby="how-title">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow">How it works</p>
+            <h2 class="display section-head__title" id="how-title">Three steps to <em>tomorrow's</em> pizza</h2>
+          </div>
+          <ol class="steps">
+            <li class="step reveal">
+              <span class="step__num">01</span>
+              <h3>Pick your pizzas</h3>
+              <p>Browse the menu and add what you like to your cart.</p>
+            </li>
+            <li class="step reveal">
+              <span class="step__num">02</span>
+              <h3>Choose a date</h3>
+              <p>Tell us pickup or delivery and when &mdash; at least 1 day ahead.</p>
+            </li>
+            <li class="step reveal">
+              <span class="step__num">03</span>
+              <h3>We confirm</h3>
+              <p>Your order lands in our inbox. We reply with payment details and confirm your slot.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="cta-band">
+        <div class="container cta-band__inner">
+          <h2 class="display cta-band__title">Hungry tomorrow?<br><em>Order today.</em></h2>
+          <a class="btn btn--primary btn--lg" href="#/menu">Start your order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ Menu ============ -->
+    <div class="page" data-route="menu" hidden>
+      <section class="page-hero">
+        <div class="container">
+          <p class="eyebrow">Menu</p>
+          <h1 class="display page-hero__title">Our artisan <em>pizzas</em></h1>
+          <p class="page-hero__lede">Every pizza is 12" Neapolitan-style. Please order at least 1 day in advance.</p>
+        </div>
+      </section>
+      <section class="section section--tight">
+        <div class="container">
+          <div class="menu-grid" id="menu-grid"></div>
+
+          <div class="menu-download">
+            <div>
+              <h2 class="menu-download__title">Take the menu with you</h2>
+              <p>Save a printable copy as PDF to share with friends or the group chat.</p>
+            </div>
+            <button class="btn btn--ghost" type="button" id="print-menu">
+              <i class="fa-solid fa-download" aria-hidden="true"></i> Download menu (PDF)
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ FAQ ============ -->
+    <div class="page" data-route="faq" hidden>
+      <section class="page-hero">
+        <div class="container">
+          <p class="eyebrow">FAQ</p>
+          <h1 class="display page-hero__title">Good <em>questions</em></h1>
+          <p class="page-hero__lede">Everything you need to know about ordering from Pizzarazzi MNL.</p>
+        </div>
+      </section>
+      <section class="section section--tight">
+        <div class="container container--narrow faq">
+          <details class="faq__item" open>
+            <summary>How far in advance should I order?</summary>
+            <div class="faq__answer"><p>We operate on a commission basis, so please order at least 1 day (24 hours) in advance. This lets us prepare fresh dough and source the best ingredients.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>What size are your pizzas?</summary>
+            <div class="faq__answer"><p>All our pizzas are 12 inches &mdash; perfect for 2&ndash;3 people. Authentic Neapolitan-style with a light, airy crust.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>What payment methods do you accept?</summary>
+            <div class="faq__answer"><p>Cash on delivery or pickup, GCash, Maya and bank transfer. We'll send payment details when we confirm your order.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Do you deliver?</summary>
+            <div class="faq__answer"><p>Yes. We offer takeaway and delivery within Marikina City and nearby areas. Delivery fees may apply depending on your location.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>How do I reheat my pizza?</summary>
+            <div class="faq__answer"><p><strong>Microwave:</strong> 20&ndash;45 seconds on high.<br><strong>Convection oven:</strong> 5&ndash;8 minutes at 150&ndash;200&nbsp;°C until the cheese melts. Don't burn it!</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>What makes your pizza special?</summary>
+            <div class="faq__answer"><p>Authentic Neapolitan preparation: a starter fermented for 12 hours, dough that rises for 12+ hours, fresh sauce from crushed tomatoes and herbs, and generous toppings.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>How do I know my order went through?</summary>
+            <div class="faq__answer"><p>After you place an order you'll see a confirmation with your order reference. We'll reply by email, text or call to confirm your slot and payment.</p></div>
+          </details>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ Contact ============ -->
+    <div class="page" data-route="contact" hidden>
+      <section class="page-hero">
+        <div class="container">
+          <p class="eyebrow">Contact</p>
+          <h1 class="display page-hero__title">Get in <em>touch</em></h1>
+          <p class="page-hero__lede">Questions, catering or custom orders &mdash; send us a message.</p>
+        </div>
+      </section>
+      <section class="section section--tight">
+        <div class="container split">
+          <aside class="contact-info">
+            <a class="contact-info__row" href="tel:+639178535101">
+              <span class="contact-info__label">Call or text</span>
+              <span class="contact-info__value">0917 853 5101</span>
+            </a>
+            <a class="contact-info__row" href="mailto:pizzarazzimnl@gmail.com">
+              <span class="contact-info__label">Email</span>
+              <span class="contact-info__value">pizzarazzimnl@gmail.com</span>
+            </a>
+            <a class="contact-info__row" href="https://maps.google.com/?q=69+Scarlet+Street+Concepcion+Dos+Marikina+City" target="_blank" rel="noopener">
+              <span class="contact-info__label">Kitchen</span>
+              <span class="contact-info__value">69 Scarlet Street, Concepcion Dos, Marikina City, Metro Manila 1811</span>
+            </a>
+          </aside>
+
+          <form class="form card" id="contact-form" novalidate>
+            <h2 class="form__title">Send a message</h2>
+            <div class="form__row">
+              <div class="field">
+                <label for="contact-name">Name</label>
+                <input id="contact-name" name="name" type="text" autocomplete="name" required placeholder="Juan Dela Cruz">
+              </div>
+              <div class="field">
+                <label for="contact-phone">Phone <span class="optional">optional</span></label>
+                <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="0917 123 4567">
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-email">Email</label>
+              <input id="contact-email" name="email" type="email" autocomplete="email" required placeholder="juan@example.com">
+            </div>
+            <div class="field">
+              <label for="contact-subject">Subject</label>
+              <input id="contact-subject" name="subject" type="text" required placeholder="e.g. Catering inquiry">
+            </div>
+            <div class="field">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows="5" required placeholder="Tell us what's on your mind…"></textarea>
+            </div>
+            <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button class="btn btn--primary btn--block" type="submit">
+              <span class="btn__text">Send message</span> <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+            </button>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ Checkout ============ -->
+    <div class="page" data-route="checkout" hidden>
+      <section class="page-hero page-hero--compact">
+        <div class="container">
+          <p class="eyebrow">Checkout</p>
+          <h1 class="display page-hero__title">Your <em>order</em></h1>
+        </div>
+      </section>
+      <section class="section section--tight">
+        <div class="container" id="checkout-root">
+          <div class="checkout">
+            <form class="form card" id="order-form" novalidate>
+              <h2 class="form__title">Your details</h2>
+
+              <fieldset class="segmented" aria-label="Pickup or delivery">
+                <label><input type="radio" name="fulfillment" value="Delivery" checked><span><i class="fa-solid fa-truck" aria-hidden="true"></i> Delivery</span></label>
+                <label><input type="radio" name="fulfillment" value="Pickup"><span><i class="fa-solid fa-store" aria-hidden="true"></i> Pickup</span></label>
+              </fieldset>
+
+              <div class="field">
+                <label for="customer-name">Full name</label>
+                <input id="customer-name" name="name" type="text" autocomplete="name" required placeholder="Juan Dela Cruz">
+              </div>
+              <div class="form__row">
+                <div class="field">
+                  <label for="customer-email">Email</label>
+                  <input id="customer-email" name="email" type="email" autocomplete="email" required placeholder="juan@example.com">
+                </div>
+                <div class="field">
+                  <label for="customer-phone">Phone</label>
+                  <input id="customer-phone" name="phone" type="tel" autocomplete="tel" required placeholder="0917 123 4567">
+                </div>
+              </div>
+              <div class="field" id="address-field">
+                <label for="customer-address">Delivery address</label>
+                <textarea id="customer-address" name="address" rows="3" autocomplete="street-address" required placeholder="House no., street, barangay, city + landmarks"></textarea>
+              </div>
+              <div class="form__row">
+                <div class="field">
+                  <label for="order-date">Date</label>
+                  <input id="order-date" name="date" type="date" required>
+                </div>
+                <div class="field">
+                  <label for="order-time">Preferred time</label>
+                  <select id="order-time" name="time">
+                    <option>Lunch (11am – 2pm)</option>
+                    <option>Afternoon (2pm – 5pm)</option>
+                    <option selected>Dinner (5pm – 8pm)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="order-payment">Payment method</label>
+                <select id="order-payment" name="payment"></select>
+              </div>
+              <div class="field">
+                <label for="order-notes">Special instructions <span class="optional">optional</span></label>
+                <textarea id="order-notes" name="notes" rows="3" placeholder="Allergies, gate code, extra napkins…"></textarea>
+              </div>
+              <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </form>
+
+            <aside class="summary card" aria-labelledby="summary-title">
+              <h2 class="form__title" id="summary-title">Order summary</h2>
+              <ul class="line-items" id="checkout-items"></ul>
+              <dl class="totals">
+                <div><dt>Subtotal</dt><dd data-cart-subtotal>₱0</dd></div>
+                <div class="totals__note"><dt>Delivery</dt><dd>Quoted on confirmation</dd></div>
+              </dl>
+              <button class="btn btn--primary btn--block btn--lg" type="submit" form="order-form" id="order-submit">
+                <span class="btn__text">Place order</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+              <p class="form__status" id="order-status" role="status" aria-live="polite"></p>
+              <p class="summary__fine">No payment is taken online. We'll confirm your order and send payment details.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============ Footer ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <div>
+          <p class="site-footer__tag">Handcrafted Neapolitan-style pizza, made to order in Marikina.</p>
+          <a class="btn btn--primary" href="#/menu">Order now</a>
+        </div>
+        <div class="site-footer__cols">
+          <div>
+            <h3>Visit</h3>
+            <p>69 Scarlet Street<br>Concepcion Dos, Marikina City<br>Metro Manila 1811</p>
+          </div>
+          <div>
+            <h3>Contact</h3>
+            <p><a href="tel:+639178535101">0917 853 5101</a><br><a href="mailto:pizzarazzimnl@gmail.com">pizzarazzimnl@gmail.com</a></p>
+          </div>
+          <div>
+            <h3>Follow</h3>
+            <div class="socials">
+              <a href="https://facebook.com/pizzarazzimanila" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+              <a href="https://instagram.com/pizzarazzimanila" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+              <a href="https://tiktok.com/@pizzarazzimanila" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="site-footer__wordmark" aria-hidden="true">PIZZARAZZI</p>
+      <div class="site-footer__bottom">
+        <span>&copy; 2021&ndash;<span data-year></span> Pizzarazzi MNL</span>
+        <span>Crafted with care in Marikina</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ Cart drawer ============ -->
+  <div class="drawer-scrim" id="drawer-scrim" hidden></div>
+  <aside class="drawer" id="cart-drawer" aria-label="Cart" aria-hidden="true" inert>
+    <div class="drawer__head">
+      <h2 class="drawer__title">Your cart <span class="drawer__count" data-cart-count>0</span></h2>
+      <button class="icon-btn" type="button" id="cart-close" aria-label="Close cart"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <ul class="line-items drawer__items" id="drawer-items"></ul>
+    <div class="drawer__foot">
+      <div class="drawer__subtotal"><span>Subtotal</span><strong data-cart-subtotal>₱0</strong></div>
+      <p class="drawer__note"><i class="fa-regular fa-clock" aria-hidden="true"></i> Order at least 1 day in advance.</p>
+      <a class="btn btn--primary btn--block btn--lg" href="#/checkout" id="drawer-checkout">Checkout <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Printable menu (only visible when printing / saving as PDF) -->
+  <section class="print-menu" id="print-menu-sheet" aria-hidden="true"></section>
+</body>
+</html>
