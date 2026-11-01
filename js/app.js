@@ -17,6 +17,20 @@
 
   const img = (url, w) => `${url}?w=${w}&q=75&auto=format&fit=crop`;
 
+  /* ---------- Smooth scroll (Lenis; native scrolling if it didn't load or motion is reduced) ---------- */
+  const lenis = window.Lenis && !prefersReducedMotion.matches ? new window.Lenis({ lerp: 0.1 }) : null;
+  if (lenis) {
+    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  }
+
+  function scrollToTarget(target, { instant = false } = {}) {
+    const offset = target === 0 ? 0 : -(document.getElementById("site-header").offsetHeight + 16);
+    if (lenis) return lenis.scrollTo(target, { offset, immediate: instant, force: true });
+    const top = target === 0 ? 0 : target.getBoundingClientRect().top + window.scrollY + offset;
+    window.scrollTo({ top, behavior: instant || prefersReducedMotion.matches ? "auto" : "smooth" });
+  }
+
   const storage = {
     get(key, fallback) {
       try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch (e) { return fallback; }
@@ -190,6 +204,7 @@
     });
     $("#cart-open").setAttribute("aria-expanded", "true");
     document.body.classList.add("body-lock");
+    lenis?.stop();
     setTimeout(() => $("#cart-close").focus(), 50);
   }
 
@@ -201,6 +216,7 @@
     drawer.setAttribute("aria-hidden", "true");
     $("#cart-open").setAttribute("aria-expanded", "false");
     document.body.classList.remove("body-lock");
+    lenis?.start();
     setTimeout(() => (scrim.hidden = true), 400);
     lastFocus?.focus?.();
   }
@@ -269,8 +285,8 @@
     setNav(false);
     closeDrawer();
 
-    if (anchor) anchor.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth" });
-    else if (changed) window.scrollTo(0, 0);
+    if (anchor) scrollToTarget(anchor);
+    else if (changed) scrollToTarget(0, { instant: true });
 
     if (changed) {
       // Move focus to the page for screen readers without scrolling
@@ -285,8 +301,8 @@
 
   /* ---------- Rendering ---------- */
   function renderMenu() {
-    $("#menu-grid").innerHTML = MENU.map((p) => `
-      <article class="menu-card reveal">
+    $("#menu-grid").innerHTML = MENU.map((p, i) => `
+      <article class="menu-card reveal" style="--d:${(i % 3) * 0.08}s">
         <div class="menu-card__media">
           <img src="${img(p.image, 720)}" srcset="${img(p.image, 480)} 480w, ${img(p.image, 720)} 720w, ${img(p.image, 1000)} 1000w" sizes="(max-width: 700px) 100vw, 400px" alt="${esc(p.name)} pizza" loading="lazy" width="720" height="540">
           ${p.favorite ? `<span class="badge"><i class="fa-solid fa-star" aria-hidden="true"></i> Favourite</span>` : ""}
@@ -495,7 +511,7 @@
       f.notes.value = "";
       cart.clear();
       renderCheckoutState();
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion.matches ? "auto" : "smooth" });
+      scrollToTarget(0);
     };
 
     // Honeypot filled → silently pretend success
@@ -567,9 +583,12 @@
   /* ---------- Scroll effects: header, parallax, USP stack ---------- */
   const hero = $(".hero");
   const uspCards = $$(".usp-card");
+  const uspInners = uspCards.map((c) => $(".usp-card__inner", c));
   const uspCurrent = $("#usp-current");
   const uspProgress = $("#usp-progress");
   let ticking = false;
+  let lastY = window.scrollY;
+  let uspActive = 0;
 
   function updateHeader() {
     const y = window.scrollY;
@@ -577,6 +596,12 @@
     const overHero = onHome && y < hero.offsetHeight - header.offsetHeight;
     header.classList.toggle("is-over-hero", overHero && y < 40);
     header.classList.toggle("is-solid", !onHome || y > 40);
+    // Tuck the header away while scrolling down, bring it back on any scroll up
+    const busy = nav.classList.contains("is-open") || drawer.classList.contains("is-open");
+    if (Math.abs(y - lastY) > 4 || y < 120) {
+      header.classList.toggle("is-hidden", !busy && y > 120 && y > lastY);
+      lastY = y;
+    }
   }
 
   function updateParallax() {
@@ -597,17 +622,64 @@
     });
   }
 
+  const clamp01 = (v) => Math.min(1, Math.max(0, v));
+
   function updateUsp() {
     if (currentRoute !== "home" || !uspCards.length) return;
-    const headerH = header.offsetHeight;
-    let active = 0;
-    uspCards.forEach((card, i) => {
-      const stickyTop = headerH + 40 + i * 18;
-      if (card.getBoundingClientRect().top <= stickyTop + 2) active = i;
+    const vh = window.innerHeight;
+    const travel = vh * 0.7; // how far below its slot a card starts swinging in
+    const narrow = window.innerWidth <= 960;
+
+    // away[i]: 1 while card i is still well below its slot, 0 once it has landed
+    const away = uspCards.map((card) => {
+      const top = parseFloat(getComputedStyle(card).top) || 0;
+      return clamp01((card.getBoundingClientRect().top - top) / travel);
     });
-    uspCards.forEach((card, i) => card.classList.toggle("is-behind", i < active));
-    uspCurrent.textContent = String(active + 1).padStart(2, "0");
-    uspProgress.style.transform = `scaleX(${(active + 1) / uspCards.length})`;
+
+    let active = 0;
+    let landed = 0;
+    uspInners.forEach((inner, i) => {
+      // depth: how many later cards have landed on top of this one (fractional)
+      let depth = 0;
+      for (let j = i + 1; j < away.length; j++) depth += 1 - away[j];
+      if (away[i] < 0.5) active = i;
+      landed += 1 - away[i];
+
+      if (prefersReducedMotion.matches) {
+        inner.style.transform = "";
+        inner.style.opacity = String(1 - clamp01(depth - 0.5));
+        inner.style.setProperty("--dim", "0");
+        return;
+      }
+
+      const side = i % 2 ? 1 : -1; // alternate left / right
+      const tilt = narrow ? 3 : 5;
+      const e = away[i] * away[i]; // ease the swing so it settles softly
+      const d = Math.min(depth, 2);
+      const back = Math.min(depth, 1);
+
+      const x = side * e * (narrow ? 6 : 10) - side * back * (narrow ? 2 : 3);
+      const y = -d * 18;
+      const rot = side * e * tilt - side * back * (tilt * 0.6);
+      const scale = 1 - d * 0.06;
+      inner.style.transform = `translate3d(${x}%, ${y}px, 0) rotate(${rot}deg) scale(${scale})`;
+      inner.style.opacity = String(1 - clamp01(depth - 1) * 0.999);
+      inner.style.setProperty("--dim", (back * 0.5).toFixed(3));
+    });
+
+    const label = String(active + 1).padStart(2, "0");
+    if (active !== uspActive) {
+      const dir = active > uspActive ? 1 : -1;
+      uspActive = active;
+      uspCurrent.textContent = label;
+      if (!prefersReducedMotion.matches) {
+        uspCurrent.animate(
+          [{ transform: `translateY(${dir * 70}%)`, opacity: 0 }, { transform: "none", opacity: 1 }],
+          { duration: 600, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+        );
+      }
+    }
+    uspProgress.style.transform = `scaleX(${clamp01(landed / uspCards.length)})`;
   }
 
   function onScroll() {
@@ -623,6 +695,15 @@
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
+
+  /* ---------- Fade images in once loaded ---------- */
+  function watchImages(root = document) {
+    $$('img[loading="lazy"]:not(.is-loaded)', root).forEach((el) => {
+      const done = () => el.classList.add("is-loaded");
+      if (el.complete) done();
+      else { el.addEventListener("load", done, { once: true }); el.addEventListener("error", done, { once: true }); }
+    });
+  }
 
   /* ---------- Reveal on scroll ---------- */
   const revealObserver = new IntersectionObserver((entries) => {
@@ -641,6 +722,7 @@
   applyThemeUI();
   $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
   $$(".reveal").forEach((el) => revealObserver.observe(el));
+  watchImages();
   route();
   renderCart();
   $$("[data-parallax]").forEach((el) => el.addEventListener("load", onScroll, { once: true }));

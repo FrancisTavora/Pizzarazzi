@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <script src="js/theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="js/data.js" defer></script>
   <script src="js/app.js" defer></script>
 
@@ -127,7 +128,7 @@
             <h2 class="display usp__title" id="usp-title">Slow dough.<br><em>Honest</em> pizza.</h2>
             <p class="usp__intro">Small-batch pizza from a home kitchen in Marikina &mdash; no shortcuts, no frozen bases, nothing sitting under a heat lamp.</p>
             <div class="usp__counter" aria-hidden="true">
-              <span class="usp__current" id="usp-current">01</span>
+              <span class="usp__current"><span id="usp-current">01</span></span>
               <span class="usp__total">/ 04</span>
             </div>
             <div class="usp__progress" aria-hidden="true"><span id="usp-progress"></span></div>
@@ -135,35 +136,43 @@
 
           <ol class="usp__list">
             <li class="usp-card" style="--i:0">
-              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1579751626657-72bc17010498?w=1200&q=75&auto=format" alt="Pizza resting on a wooden board in front of a wood-fired oven" loading="lazy"></div>
-              <div class="usp-card__body">
-                <span class="usp-card__num">01</span>
-                <h3 class="usp-card__title">24-hour dough</h3>
-                <p>Our starter ferments for 12 hours, then the dough rises for another 12+. The result: a light, airy, blistered crust that's easy on the stomach.</p>
+              <div class="usp-card__inner">
+                <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1579751626657-72bc17010498?w=1200&q=75&auto=format" alt="Pizza resting on a wooden board in front of a wood-fired oven" loading="lazy"></div>
+                <div class="usp-card__body">
+                  <span class="usp-card__num">01</span>
+                  <h3 class="usp-card__title">24-hour dough</h3>
+                  <p>Our starter ferments for 12 hours, then the dough rises for another 12+. The result: a light, airy, blistered crust that's easy on the stomach.</p>
+                </div>
               </div>
             </li>
             <li class="usp-card" style="--i:1">
-              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?w=1200&q=75&auto=format" alt="Hand lifting a slice of pepperoni pizza" loading="lazy"></div>
-              <div class="usp-card__body">
-                <span class="usp-card__num">02</span>
-                <h3 class="usp-card__title">Made to order</h3>
-                <p>We work on commission, so every pizza is made for you. Order a day ahead and we prepare fresh dough and source ingredients just for your order.</p>
+              <div class="usp-card__inner">
+                <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?w=1200&q=75&auto=format" alt="Hand lifting a slice of pepperoni pizza" loading="lazy"></div>
+                <div class="usp-card__body">
+                  <span class="usp-card__num">02</span>
+                  <h3 class="usp-card__title">Made to order</h3>
+                  <p>We work on commission, so every pizza is made for you. Order a day ahead and we prepare fresh dough and source ingredients just for your order.</p>
+                </div>
               </div>
             </li>
             <li class="usp-card" style="--i:2">
-              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=1200&q=75&auto=format" alt="Sliced pizza with tomatoes, garlic and herbs" loading="lazy"></div>
-              <div class="usp-card__body">
-                <span class="usp-card__num">03</span>
-                <h3 class="usp-card__title">Fresh, generous toppings</h3>
-                <p>Sauce made from crushed tomatoes and herbs, real mozzarella and toppings piled on properly &mdash; 12 inches that comfortably feed two to three.</p>
+              <div class="usp-card__inner">
+                <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=1200&q=75&auto=format" alt="Sliced pizza with tomatoes, garlic and herbs" loading="lazy"></div>
+                <div class="usp-card__body">
+                  <span class="usp-card__num">03</span>
+                  <h3 class="usp-card__title">Fresh, generous toppings</h3>
+                  <p>Sauce made from crushed tomatoes and herbs, real mozzarella and toppings piled on properly &mdash; 12 inches that comfortably feed two to three.</p>
+                </div>
               </div>
             </li>
             <li class="usp-card" style="--i:3">
-              <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=1200&q=75&auto=format" alt="Pizzas being shared at a dinner table" loading="lazy"></div>
-              <div class="usp-card__body">
-                <span class="usp-card__num">04</span>
-                <h3 class="usp-card__title">Pickup or delivery</h3>
-                <p>Collect from our kitchen in Concepcion Dos or have it delivered within Marikina and nearby areas. Pay by cash, GCash, Maya or bank transfer.</p>
+              <div class="usp-card__inner">
+                <div class="usp-card__media"><img data-parallax="0.08" src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=1200&q=75&auto=format" alt="Pizzas being shared at a dinner table" loading="lazy"></div>
+                <div class="usp-card__body">
+                  <span class="usp-card__num">04</span>
+                  <h3 class="usp-card__title">Pickup or delivery</h3>
+                  <p>Collect from our kitchen in Concepcion Dos or have it delivered within Marikina and nearby areas. Pay by cash, GCash, Maya or bank transfer.</p>
+                </div>
               </div>
             </li>
           </ol>
@@ -173,7 +182,7 @@
       <!-- Signature lineup -->
       <section class="lineup section" aria-labelledby="lineup-title">
         <div class="container">
-          <div class="section-head">
+          <div class="section-head reveal">
             <p class="eyebrow">The lineup</p>
             <h2 class="display section-head__title" id="lineup-title">Signature <em>pies</em></h2>
             <a class="link-arrow" href="#/menu">Full menu <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
@@ -185,7 +194,7 @@
       <!-- How to order -->
       <section class="how section" id="how" aria-labelledby="how-title">
         <div class="container">
-          <div class="section-head">
+          <div class="section-head reveal">
             <p class="eyebrow">How it works</p>
             <h2 class="display section-head__title" id="how-title">Three steps to <em>tomorrow's</em> pizza</h2>
           </div>
@@ -211,7 +220,7 @@
 
       <section class="cta-band">
         <div class="container cta-band__inner">
-          <h2 class="display cta-band__title">Hungry tomorrow?<br><em>Order today.</em></h2>
+          <h2 class="display cta-band__title reveal">Hungry tomorrow?<br><em>Order today.</em></h2>
           <a class="btn btn--primary btn--lg" href="#/menu">Start your order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       </section>
@@ -469,7 +478,7 @@
       <h2 class="drawer__title">Your cart <span class="drawer__count" data-cart-count>0</span></h2>
       <button class="icon-btn" type="button" id="cart-close" aria-label="Close cart"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
     </div>
-    <ul class="line-items drawer__items" id="drawer-items"></ul>
+    <ul class="line-items drawer__items" id="drawer-items" data-lenis-prevent></ul>
     <div class="drawer__foot">
       <div class="drawer__subtotal"><span>Subtotal</span><strong data-cart-subtotal>₱0</strong></div>
       <p class="drawer__note"><i class="fa-regular fa-clock" aria-hidden="true"></i> Order at least 1 day in advance.</p>
