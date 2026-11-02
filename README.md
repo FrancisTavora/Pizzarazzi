@@ -53,3 +53,4 @@ If Lenis doesn't load, the page falls back to normal scrolling.
 ## Deployment
 
 GitHub Pages publishes the root of the `main` branch, so pushing to `main` updates the live site.
+Browsers can keep old files for a while, so when you change the CSS or JavaScript, raise the `?v=` number on those files in `index.html`.

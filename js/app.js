@@ -652,16 +652,18 @@
         return;
       }
 
-      const side = i % 2 ? 1 : -1; // alternate left / right
-      const tilt = narrow ? 3 : 5;
+      // Every card rests off to its own side, so the pile zigzags left / right
+      const side = i % 2 ? 1 : -1;
+      const restX = narrow ? 1 : 3.5;
+      const restTilt = narrow ? 1.2 : 2;
       const e = away[i] * away[i]; // ease the swing so it settles softly
       const d = Math.min(depth, 2);
       const back = Math.min(depth, 1);
 
-      const x = side * e * (narrow ? 6 : 10) - side * back * (narrow ? 2 : 3);
+      const x = side * (restX + e * (narrow ? 6 : 10));
       const y = -d * 18;
-      const rot = side * e * tilt - side * back * (tilt * 0.6);
-      const scale = 1 - d * 0.06;
+      const rot = side * (restTilt + e * (narrow ? 3 : 5) + back * (narrow ? 0.6 : 1.5));
+      const scale = 1 - d * 0.05;
       inner.style.transform = `translate3d(${x}%, ${y}px, 0) rotate(${rot}deg) scale(${scale})`;
       inner.style.opacity = String(1 - clamp01(depth - 1) * 0.999);
       inner.style.setProperty("--dim", (back * 0.5).toFixed(3));
