@@ -18,8 +18,10 @@
   const img = (url, w) => `${url}?w=${w}&q=75&auto=format&fit=crop`;
 
   /* ---------- Smooth scroll (Lenis; native scrolling if it didn't load or motion is reduced) ---------- */
-  const lenis = window.Lenis && !prefersReducedMotion.matches ? new window.Lenis({ lerp: 0.1 }) : null;
+  const lenis = window.Lenis && !prefersReducedMotion.matches ? new window.Lenis({ lerp: 0.16 }) : null;
   if (lenis) {
+    // Update in the same frame Lenis scrolls, so cards don't trail a frame behind
+    lenis.on("scroll", () => runScrollEffects());
     const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
   }
@@ -583,7 +585,13 @@
   /* ---------- Scroll effects: header, parallax, USP stack ---------- */
   const hero = $(".hero");
   const uspCards = $$(".usp-card");
+  const uspList = $(".usp__list");
   const uspInners = uspCards.map((c) => $(".usp-card__inner", c));
+  const uspDims = uspInners.map((inner) => inner.appendChild(document.createElement("span")));
+  uspDims.forEach((el) => (el.className = "usp-card__dim"));
+  const uspWritten = uspCards.map(() => ({}));
+  let uspLayout = null;
+  let parallaxEls = [];
   const uspCurrent = $("#usp-current");
   const uspProgress = $("#usp-progress");
   let ticking = false;
@@ -606,39 +614,71 @@
 
   function updateParallax() {
     const vh = window.innerHeight;
-    $$("[data-parallax]").forEach((el) => {
+    const writes = [];
+    parallaxEls.forEach((el) => {
       const frame = el.parentElement;
       if (!frame.offsetParent && frame !== document.body) return; // hidden page
       const rect = frame.getBoundingClientRect();
+      if (!prefersReducedMotion.matches && (rect.bottom < -100 || rect.top > vh + 100)) return;
       const extra = el.offsetHeight - frame.offsetHeight;
       if (extra <= 0) return;
       const base = -extra / 2;
-      if (prefersReducedMotion.matches) { el.style.transform = `translate3d(0, ${base}px, 0)`; return; }
-      if (rect.bottom < -100 || rect.top > vh + 100) return;
+      if (prefersReducedMotion.matches) { writes.push([el, base]); return; }
       const speed = parseFloat(el.dataset.parallax) || 0.1;
       const delta = (rect.top + rect.height / 2 - vh / 2) * speed;
-      const offset = Math.max(-extra / 2, Math.min(extra / 2, delta));
-      el.style.transform = `translate3d(0, ${base - offset}px, 0)`;
+      writes.push([el, base - Math.max(-extra / 2, Math.min(extra / 2, delta))]);
     });
+    writes.forEach(([el, y]) => (el.style.transform = `translate3d(0, ${y}px, 0)`));
   }
 
   const clamp01 = (v) => Math.min(1, Math.max(0, v));
 
+  // Layout is read only when it can have changed, never while scrolling
+  function measureUsp() {
+    const style = getComputedStyle(uspCards[0]);
+    const gap = parseFloat(getComputedStyle(uspList).rowGap) || 0;
+    let top = uspList.getBoundingClientRect().top + window.scrollY;
+    const tops = uspCards.map((card) => {
+      const t = top;
+      top += card.offsetHeight + gap;
+      return t;
+    });
+    uspLayout = {
+      tops,
+      stuck: style.position === "sticky",
+      stickTop: parseFloat(style.top) || 0,
+      travel: window.innerHeight * 0.5, // how far below its slot a card starts swinging in
+      narrow: window.innerWidth <= 960
+    };
+  }
+
+  function writeUspCard(i, transform, opacity, dim) {
+    const last = uspWritten[i];
+    if (last.transform !== transform) uspInners[i].style.transform = last.transform = transform;
+    if (last.opacity !== opacity) {
+      uspInners[i].style.opacity = last.opacity = opacity;
+      uspInners[i].style.visibility = opacity === "0" ? "hidden" : ""; // buried: nothing left to draw
+    }
+    if (last.dim !== dim) uspDims[i].style.opacity = last.dim = dim;
+  }
+
   function updateUsp() {
     if (currentRoute !== "home" || !uspCards.length) return;
-    const vh = window.innerHeight;
-    const travel = vh * 0.7; // how far below its slot a card starts swinging in
-    const narrow = window.innerWidth <= 960;
+    if (!uspLayout) measureUsp();
+    const { tops, stuck, stickTop, travel, narrow } = uspLayout;
+
+    if (!stuck) { // short screens show a plain list
+      uspCards.forEach((_, i) => writeUspCard(i, "", "1", "0"));
+      return;
+    }
 
     // away[i]: 1 while card i is still well below its slot, 0 once it has landed
-    const away = uspCards.map((card) => {
-      const top = parseFloat(getComputedStyle(card).top) || 0;
-      return clamp01((card.getBoundingClientRect().top - top) / travel);
-    });
+    const y = window.scrollY;
+    const away = tops.map((top) => clamp01((top - y - stickTop) / travel));
 
     let active = 0;
     let landed = 0;
-    uspInners.forEach((inner, i) => {
+    uspCards.forEach((_, i) => {
       // depth: how many later cards have landed on top of this one (fractional)
       let depth = 0;
       for (let j = i + 1; j < away.length; j++) depth += 1 - away[j];
@@ -646,9 +686,7 @@
       landed += 1 - away[i];
 
       if (prefersReducedMotion.matches) {
-        inner.style.transform = "";
-        inner.style.opacity = String(1 - clamp01(depth - 0.5));
-        inner.style.setProperty("--dim", "0");
+        writeUspCard(i, "", (1 - clamp01(depth - 0.5)).toFixed(2) * 1 + "", "0");
         return;
       }
 
@@ -660,13 +698,16 @@
       const d = Math.min(depth, 2);
       const back = Math.min(depth, 1);
 
-      const x = side * (restX + e * (narrow ? 6 : 10));
-      const y = -d * 18;
+      const tx = side * (restX + e * (narrow ? 6 : 10));
+      const ty = -d * 18;
       const rot = side * (restTilt + e * (narrow ? 3 : 5) + back * (narrow ? 0.6 : 1.5));
       const scale = 1 - d * 0.05;
-      inner.style.transform = `translate3d(${x}%, ${y}px, 0) rotate(${rot}deg) scale(${scale})`;
-      inner.style.opacity = String(1 - clamp01(depth - 1) * 0.999);
-      inner.style.setProperty("--dim", (back * 0.5).toFixed(3));
+      writeUspCard(
+        i,
+        `translate3d(${tx.toFixed(2)}%, ${ty.toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg) scale(${scale.toFixed(3)})`,
+        (1 - clamp01(depth - 1)).toFixed(2) * 1 + "",
+        (back * 0.5).toFixed(2)
+      );
     });
 
     const label = String(active + 1).padStart(2, "0");
@@ -684,19 +725,26 @@
     uspProgress.style.transform = `scaleX(${clamp01(landed / uspCards.length)})`;
   }
 
+  function runScrollEffects() {
+    updateHeader();
+    updateParallax();
+    updateUsp();
+  }
+
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      updateHeader();
-      updateParallax();
-      updateUsp();
+      runScrollEffects();
       ticking = false;
     });
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  function remeasure() { uspLayout = null; onScroll(); }
+  window.addEventListener("resize", remeasure);
+  new ResizeObserver(remeasure).observe(document.body); // fonts, images, page changes
+  document.addEventListener("animationend", (e) => { if (e.target.classList?.contains("page")) remeasure(); });
 
   /* ---------- Fade images in once loaded ---------- */
   function watchImages(root = document) {
@@ -719,6 +767,7 @@
   /* ---------- Init ---------- */
   renderMenu();
   renderLineup();
+  parallaxEls = $$("[data-parallax]");
   renderPrintMenu();
   initOrderForm();
   applyThemeUI();
@@ -727,5 +776,5 @@
   watchImages();
   route();
   renderCart();
-  $$("[data-parallax]").forEach((el) => el.addEventListener("load", onScroll, { once: true }));
+  parallaxEls.forEach((el) => el.addEventListener("load", onScroll, { once: true }));
 })();
